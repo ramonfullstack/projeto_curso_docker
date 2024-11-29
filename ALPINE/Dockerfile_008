@@ -29,12 +29,9 @@ RUN cd /tmp/arquivos/ \
     && unzip files.zip \
     && rm files.zip
 
-ADD --chown=ramon:dev "https://argus-academy.com/cursos/docker_-_dominando_a_criacao_e_o_gerenciamento_de_containers/server.tar.gz"
+RUN echo ${MSG} > /tmp/arquivo_criado_durante__o_build_da_imagem.txt
 
-RUN cd /opt/app/  \
-    && taz xvzf server.taz.gz \
-    && rm server.taz.gz
+CMD [ "/bin/sh" , "-c", "echo COMANDO executado automaticamente quando o container é iniciado"]
 
-CMD [ "/bin/sh" , "-c", "CD /opt/app/ && node server.js"]
 
 

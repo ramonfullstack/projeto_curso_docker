@@ -1,0 +1,41 @@
+#docker build -t nome_imagem --build-args ALPINE_VERSION=3.17 .
+
+FROM alpine:${ALPINE_VERSION}
+
+
+ARG ALPINE_VERSION=3.18
+ARG FRONT_PRD="https://meuapp.com.br"
+ARG BACK_PRD="https://meuapp.com.br:3002"
+
+
+RUN <<EOF
+    apk add --no-cache nodejs
+    apk add --no-cache npm
+    apk add --no-cache git
+EOF
+
+RUN adduser -D ramon
+USER ramon
+
+
+LABEL desenvolvedor="Ramon Silva" descricao="Imagem criada para testes"
+
+ENV FRONT_PRD="https://meuapp.com.br"
+ENV BACK_PRD="https://meuapp.com.br:3002"
+
+#declarando sintaxe sem o "="
+ENV FRONT_PRD "https://meuapp.com.br"
+ENV BACK_PRD "https://meuapp.com.br:3002"
+
+ENV MSG "Variável de ambiente criada no Dockerfile"
+
+RUN echo ${MSG} > /tmp/arquivo_criado_durante__o_build_da_imagem.txt
+
+CMD [ "/bin/sh" , "-c", "echo COMANDO executado automaticamente quando o container é iniciado"]
+
+#docker build -t argus/academy_dockerfile .dockerfile
+#docker run idd4444555 /bin/sh -c "Rodando e sobrepondo a do dockerfile"
+#docker run idd4444555 printenv
+
+
+

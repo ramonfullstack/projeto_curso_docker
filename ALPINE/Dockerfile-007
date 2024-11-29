@@ -1,0 +1,30 @@
+#docker build -t nome_imagem --build-args ALPINE_VERSION=3.17 .
+
+FROM alpine:${ALPINE_VERSION}
+
+
+ARG ALPINE_VERSION=3.18
+ARG FRONT_PRD="https://meuapp.com.br"
+ARG BACK_PRD="https://meuapp.com.br:3002"
+
+#declarando sintaxe sem o "="
+ENV FRONT_PRD "https://meuapp.com.br"
+ENV BACK_PRD "https://meuapp.com.br:3002"
+
+ENV MSG "Variável de ambiente criada no Dockerfile"
+
+RUN adduser -D ramon \
+    && addgroup dev  \
+    && addgroup ramon dev
+
+ADD ./arquivo_abc.txt /tmp/
+ADD ./arquivo_xyz.txt /tmp/
+ADD --chown=ramon ./arquivo_abc.txt /tmp/
+ADD --chown=ramon ./arquivo_xyz.txt /tmp/
+
+RUN echo ${MSG} > /tmp/arquivo_criado_durante__o_build_da_imagem.txt
+
+CMD [ "/bin/sh" , "-c", "echo COMANDO executado automaticamente quando o container é iniciado"]
+
+
+
