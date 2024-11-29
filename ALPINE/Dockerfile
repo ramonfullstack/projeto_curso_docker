@@ -2,39 +2,12 @@
 
 FROM alpine:${ALPINE_VERSION}
 
+#CMD [ "/bin/sh", "-c" "echo Parametro 1 - Instrução via CMD"]
+#ENTRYPOINT [ "echo", "Parametro 1 - INSTRUÇÃO VIA ENTRYPOINT" ]
+#CMD [ "echo Parametro 1 - Instrução via CMD" ]
+# ENTRYPOINT [ "ls" ] #ls -la
+# CMD [ "-la" ] #ls -la
 
-ARG ALPINE_VERSION=3.18
-ARG FRONT_PRD="https://meuapp.com.br"
-ARG BACK_PRD="https://meuapp.com.br:3002"
+COPY ./dockerfile-entrypoint.sh /start/dockerfile-entrypoint.sh
 
-#declarando sintaxe sem o "="
-ENV FRONT_PRD "https://meuapp.com.br"
-ENV BACK_PRD "https://meuapp.com.br:3002"
-
-ENV MSG "Variável de ambiente criada no Dockerfile"
-
-RUN adduser -D ramon \
-    && addgroup dev  \
-    && addgroup ramon dev
-
-# ADD ./arquivo_abc.txt /tmp/
-# ADD ./arquivo_xyz.txt /tmp/
-# ADD --chown=ramon ./arquivo_abc.txt /tmp/
-# ADD --chown=ramon ./arquivo_xyz.txt /tmp/
-
-#ADD --chown=ramon:dev ./arquivo_*.txt /tmp/curinga
-ADD --chown=ramon:dev ./arquivo_ab?.??? /tmp/curinga
-
-RUN cd /tmp/arquivos/ \
-    && unzip files.zip \
-    && rm files.zip
-
-ADD --chown=ramon:dev "https://argus-academy.com/cursos/docker_-_dominando_a_criacao_e_o_gerenciamento_de_containers/server.tar.gz"
-
-RUN cd /opt/app/  \
-    && taz xvzf server.taz.gz \
-    && rm server.taz.gz
-
-CMD [ "/bin/sh" , "-c", "CD /opt/app/ && node server.js"]
-
-
+ENTRYPOINT [ "dockerfile-entrypoint.sh" ]
