@@ -1,33 +1,13 @@
 #docker build -t nome_imagem --build-args ALPINE_VERSION=3.17 .
-ARG ALPINE_VERSION=3.19
 
 FROM alpine:${ALPINE_VERSION}
 
+#CMD [ "/bin/sh", "-c" "echo Parametro 1 - Instrução via CMD"]
+#ENTRYPOINT [ "echo", "Parametro 1 - INSTRUÇÃO VIA ENTRYPOINT" ]
+#CMD [ "echo Parametro 1 - Instrução via CMD" ]
+# ENTRYPOINT [ "ls" ] #ls -la
+# CMD [ "-la" ] #ls -la
 
-WORKDIR /
-RUN mkdir ./logs/
-RUN echo "1 - Diretório de trabalho atual: $(pwd)" > /logs/2.txt
+COPY ./dockerfile-entrypoint.sh /start/dockerfile-entrypoint.sh
 
-RUN <<EOF
-    apk add --no-cache nodejs
-    apk add --no-cache npm
-EOF
-
-WORKDIR /opt/code/
-RUN echo "1 - Diretório de trabalho atual: $(pwd)" > /logs/3.txt
-
-
-ADD https://argus-academy.com/cursos/docker_-_dominando_a_criacao_e_o_gerenciamento_de_containers/server.tar.gz ./code
-
-RUN tar xvzf server.taz.gz \
-    && rm server.taz.gz
-
-CMD [ "/bin/sh", "-c", "Testando comando cmd" ]
-
-#EXPOSE 3000 por padrão será tcp
-EXPOSE 3000/tcp
-EXPOSE 3000/udp
-
-EXPOSE 3000
-
-#TCP ou UDP
+ENTRYPOINT [ "dockerfile-entrypoint.sh" ]

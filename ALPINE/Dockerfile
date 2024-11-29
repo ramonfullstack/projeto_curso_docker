@@ -1,13 +1,27 @@
-#docker build -t nome_imagem --build-args ALPINE_VERSION=3.17 .
+ARG ALPINE_VERSION=3.19
 
 FROM alpine:${ALPINE_VERSION}
 
-#CMD [ "/bin/sh", "-c" "echo Parametro 1 - Instrução via CMD"]
-#ENTRYPOINT [ "echo", "Parametro 1 - INSTRUÇÃO VIA ENTRYPOINT" ]
-#CMD [ "echo Parametro 1 - Instrução via CMD" ]
-# ENTRYPOINT [ "ls" ] #ls -la
-# CMD [ "-la" ] #ls -la
+LABEL dev="Ramon"
 
-COPY ./dockerfile-entrypoint.sh /start/dockerfile-entrypoint.sh
+ENV HOST="0.0.0.0"
+#1
+RUN apk add --no-cache nodejs
 
-ENTRYPOINT [ "dockerfile-entrypoint.sh" ]
+#2
+RUN apk add --no-cache npm
+
+#3
+RUN apk add --no-cache git
+
+#4
+RUN apk add --no-cache wget
+
+#5
+RUN apk add --no-cache express
+
+WORKDIR /opt/etc
+
+ENTRYPOINT [ "node" ]
+
+CMD [ "node" ]
