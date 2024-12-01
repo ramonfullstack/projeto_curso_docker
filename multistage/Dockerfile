@@ -14,4 +14,8 @@ FROM scratch
 
 COPY --from=0 /opt/app/Main /Main
 
+FROM prd AS run
+
+COPY --from=0 /opt/app/Main /Main
+
 CMD [ "./Main" ]
